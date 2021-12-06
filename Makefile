@@ -1,4 +1,6 @@
-NAME = minitalk
+SERVER = server
+
+CLIENT = client
 
 CC	=	@gcc
 
@@ -6,29 +8,35 @@ CFLAGS	=	-Wall -Wextra -Werror
 
 LFLAGS	=  -lncurses -lft -L ./libft
 
+LIBFT = ./libft/libft.a
+
 HEADER	=	-I include
 
 RM	=	@rm -rf
 
-SRCS =	srcs/minitalk.c
+SRC_CLIENT =	srcs/client.c
+SRC_SERVER =	srcs/server.c
 
-OBJS	=	$(SRCS:.c=.o)
+CLIENT_OBJ = $(SRC_CLIENT:.c=.o)
+SERVER_OBJ = $(SRC_SERVER:.c=.o)
 
-%.o:	%.c
-	$(CC) $(CFLAGS) -c $< -o $@
 
-all: $(NAME) 
+$(CLIENT) : $(CLIENT_OBJ) $(SERVER)
+			$(CC) $(CFLAGS) $(HEADER) $(SRC_CLIENT) $(LIBFT) -o $(CLIENT)
 
-$(NAME):	$(OBJS)
-		make -s -C ./libft
-		gcc $(CFLAGS) $(HEADER) ./libft/libft.a -o $(NAME) $(SRCS) $(LFLAGS)
+$(SERVER) : $(SERVER_OBJ) 
+			make -C ./libft
+			$(CC) $(CFLAGS) $(HEADER) $(SRC_SERVER) $(LIBFT) -o $(SERVER)
+
+all: $(MAKELIB) $(SERVER) $(CLIENT)
 	
 clean:
-		$(RM) $(OBJS)
+		$(RM) $(CLIENT_OBJ)
+		$(RM) $(SERVER_OBJ)
 		@make clean -C libft
 
 fclean:	clean
-		$(RM) $(NAME)
+		$(RM) $(SERVER) $(CLIENT)
 		@make fclean -C libft
 
 re: fclean all
