@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 17:15:43 by acousini          #+#    #+#             */
-/*   Updated: 2021/12/02 17:18:59 by acousini         ###   ########.fr       */
+/*   Updated: 2021/12/08 18:11:47 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 typedef struct t_strct
 {
-	char	c;
+	int		c;
 	int		size;
 }				t_strct;
 

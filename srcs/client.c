@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 19:13:49 by acousini          #+#    #+#             */
-/*   Updated: 2021/12/08 15:37:34 by acousini         ###   ########.fr       */
+/*   Updated: 2021/12/08 18:27:00 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	write_input(char *str, int pid)
 			else
 				kill(pid, SIGUSR1);
 			j++;
-			usleep(150);//is this needed?
 			pause();
 		}
 		i++;
@@ -38,7 +37,10 @@ void	write_input(char *str, int pid)
 void	handler(int signal)
 {
 	if (signal == SIGUSR2)
+	{
+		printf("COUCOU\n");
 		exit(1);
+	}
 }
 
 int	main(int argc, char **argv)
@@ -54,6 +56,7 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	str = argv[2];
+	usleep(100);
 	sigaction(SIGUSR1, &sig, NULL);
 	sigaction(SIGUSR2, &sig, NULL);
 	write_input(str, ft_atoi(argv[1]));
