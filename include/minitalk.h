@@ -24,6 +24,7 @@ typedef struct t_strct
 {
 	int		c;
 	int		size;
+	int		i;
 }				t_strct;
 
 #endif
