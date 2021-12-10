@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 19:13:49 by acousini          #+#    #+#             */
-/*   Updated: 2021/12/10 17:37:47 by acousini         ###   ########.fr       */
+/*   Updated: 2021/12/10 18:22:49 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,12 @@ void	handler(int signal)
 {
 	if (signal == SIGUSR1)
 	{
-		printf("");
+		printf(" ");
 	}
 	if (signal == SIGUSR2)
 	{
-		printf("fin de transmission Alpha 5\n");
-		printf("rodger that\n");
-		exit(1);
+		printf("signal is SIGUSR2; Error\n");
+		exit(0);
 	}
 }
 

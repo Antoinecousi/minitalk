@@ -6,15 +6,11 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 17:12:39 by acousini          #+#    #+#             */
-/*   Updated: 2021/12/10 17:39:22 by acousini         ###   ########.fr       */
+/*   Updated: 2021/12/10 18:22:21 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
-
-// void	error_signal(void int)
-// {
-// }
 
 void	handle_sigusr(int byte, int pid)
 {
@@ -27,15 +23,16 @@ void	handle_sigusr(int byte, int pid)
 	{
 		c = 0;
 		size = 0;
-		write(1, "\nCommunication error\n", 21);
+		write(1, "\nCommunication error\n", 22);
 		kill(pid, SIGUSR2);
 	}
 	if (size == 7)
 	{
 		if (c == '\0')
 		{
-			ft_putchar_fd("je suis le backslash n \n", 1);
+			ft_putstr_fd("\n", 1);
 			kill(pid, SIGUSR2);
+			return ;
 		}
 		else
 			ft_putchar_fd(c, 1);
@@ -91,9 +88,9 @@ int	main(int argc, char **argv)
 	sigemptyset(&sig.sa_mask);
 	// sig.sa_mask = block_mask;
 	sig.sa_sigaction = handler;
-	write(1, "pid = ", 6);
+	write(1, "pid = ", 7);
 	ft_putnbr_fd(getpid(), 1);
-	write(1, "\n", 1);
+	write(1, "\n", 2);
 	sigaction(SIGUSR1, &sig, NULL);
 	sigaction(SIGUSR2, &sig, NULL);
 
