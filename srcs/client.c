@@ -6,32 +6,38 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 19:13:49 by acousini          #+#    #+#             */
-/*   Updated: 2021/12/08 18:27:00 by acousini         ###   ########.fr       */
+/*   Updated: 2021/12/10 17:37:47 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 
+void	error_handling(int pid)
+{
+	write(1, "ERROR\n", 6);
+	(void)pid;
+	exit(1);
+}
+
 void	write_input(char *str, int pid)
 {
-	int		i;
+	size_t		i;
 	int		j;
 
 	i = 0;
-	while (str[i])
+	while (i <= ft_strlen(str))
 	{
 		j = 0;
-		printf("coucou on est ici\n");
 		while (j <= 6)
 		{
 			if (str[i] >> j & 1)
 			{
 				if (kill(pid, SIGUSR2) == -1)
-					exit(EXIT_FAILURE);
+					error_handling(pid);
 			}
 			else
 				if (kill(pid, SIGUSR1) == -1)
-					exit(EXIT_FAILURE);
+					error_handling(pid);
 			j++;
 			pause();
 		}
@@ -47,7 +53,8 @@ void	handler(int signal)
 	}
 	if (signal == SIGUSR2)
 	{
-		printf("Signal error\n");
+		printf("fin de transmission Alpha 5\n");
+		printf("rodger that\n");
 		exit(1);
 	}
 }
@@ -71,5 +78,6 @@ int	main(int argc, char **argv)
 	// signal(SIGUSR1, handler);
 	// signal(SIGUSR2, handler);
 	write_input(str, ft_atoi(argv[1]));
+	printf("JE NE SUIS PAS PROPRE\n");
 	return (0);
 }
