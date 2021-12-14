@@ -39,10 +39,10 @@ void	handle_sigusr(int byte, int pid)
 		size = 0;
 		c = 0;
 	}
-	usleep(100);
+	usleep(200);
 	if (kill(pid, SIGUSR1) == -1)
 	{
-		printf("1 Je m'exit = KILL RENVOI -1");
+		printf("Problem with kill transmission. Abort. ERR_01\n");
 		exit(EXIT_FAILURE);
 	}
 }

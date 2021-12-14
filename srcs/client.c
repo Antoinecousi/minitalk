@@ -47,13 +47,13 @@ void	write_input(char *str, int pid)
 
 void	handler(int signal)
 {
-	if (signal == SIGUSR1)
-	{
-		printf(" ");
-	}
+	// if (signal == SIGUSR1)
+	// {
+	// 	printf(" ");
+	// }
 	if (signal == SIGUSR2)
 	{
-		printf("signal is SIGUSR2; Error\n");
+		printf("Signal finished!\n");
 		exit(0);
 	}
 }
