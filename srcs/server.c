@@ -41,8 +41,8 @@ void	handle_sigusr(int byte, int pid)
 		size = 0;
 		c = 0;
 	}
-	usleep(500);
-	if (kill(pid, SIGUSR1) == -1)
+	usleep(1500);
+	if (kill(pid, SIGUSR1) != 0)
 	{
 		printf("Problem with kill transmission. Abort. ERR_01\n");
 		exit(EXIT_FAILURE);
@@ -56,12 +56,12 @@ static void	handler(int signal, siginfo_t *info, void *context)
 	if (info->si_pid != 0)
 		pid = info->si_pid;
 	(void)context;
-	// if (info->si_pid == 0)
-	// {
-	// 	printf("info_pid == %d\n", info->si_pid);
-	// 	printf("pid == %d\n", pid);
-	// 	printf("MON PID EST EGAL A 0???\n");
-	// }
+	if (info->si_pid == 0)
+	{
+		printf("info_pid == %d\n", info->si_pid);
+		printf("pid == %d\n", pid);
+		printf("MON PID EST EGAL A 0???\n");
+	}
 	if (signal == SIGUSR1)
 	{
 		handle_sigusr(0, pid);

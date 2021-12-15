@@ -30,6 +30,7 @@ void	write_input(char *str, int pid)
 		j = 0;
 		while (j <= 6)
 		{
+			usleep(1500);
 			if (str[i] >> j & 1)
 			{
 				if (kill(pid, SIGUSR2) == -1)
@@ -48,35 +49,32 @@ void	write_input(char *str, int pid)
 
 void	handler(int signal)
 {
-	// if (signal == SIGUSR1)
-	// {
-	// 	printf(" ");
-	// }
 	if (signal == SIGUSR2)
 	{
 		printf("Signal finished!\n");
-		exit(1); //CARE HERE, Pause is still on;
+		exit(1);
 	}
 }
 
 int	main(int argc, char **argv)
 {
 	char				*str;
-	// struct sigaction	sig;
+	struct sigaction	sig;
 
-	// sig.sa_flags = SA_RESTART;
-	// sig.sa_handler = handler;
+	sig.sa_flags = SA_RESTART;
+	sig.sa_handler = handler;
 	if (argc != 3)
 	{
 		ft_putstr_fd("Usage is : \t./client \"Server PID\" \"String\"", 1);
 		return (0);
 	}
 	str = argv[2];
-	usleep(500);
-	// sigaction(SIGUSR1, &sig, NULL);
-	// sigaction(SIGUSR2, &sig, NULL);
-	signal(SIGUSR1, handler);
-	signal(SIGUSR2, handler);
+	usleep(10000);
+	sigemptyset(&sig.sa_mask);
+	sigaction(SIGUSR1, &sig, NULL);
+	sigaction(SIGUSR2, &sig, NULL);
+	// signal(SIGUSR1, handler);
+	// signal(SIGUSR2, handler);
 	printf("%s\n", str);
 	write_input(str, ft_atoi(argv[1]));
 	printf("JE NE SUIS PAS PROPRE\n");
