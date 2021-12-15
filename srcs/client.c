@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 19:13:49 by acousini          #+#    #+#             */
-/*   Updated: 2021/12/15 12:34:41 by acousini         ###   ########.fr       */
+/*   Updated: 2021/12/15 17:18:24 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	error_handling(int pid)
 void	write_input(char *str, int pid)
 {
 	size_t		i;
-	int		j;
+	int			j;
 
 	i = 0;
 	while (i <= ft_strlen(str))
@@ -40,7 +40,6 @@ void	write_input(char *str, int pid)
 				if (kill(pid, SIGUSR1) == -1)
 					error_handling(pid);
 			j++;
-			printf("waiting for server, j = %d, str[i] = %c\n", j, str[i]);
 			pause();
 		}
 		i++;
@@ -51,7 +50,7 @@ void	handler(int signal)
 {
 	if (signal == SIGUSR2)
 	{
-		printf("Signal finished!\n");
+		write(1, "Transmission succeeded!\n", 24);
 		exit(1);
 	}
 }
@@ -70,13 +69,8 @@ int	main(int argc, char **argv)
 	}
 	str = argv[2];
 	usleep(10000);
-	sigemptyset(&sig.sa_mask);
 	sigaction(SIGUSR1, &sig, NULL);
 	sigaction(SIGUSR2, &sig, NULL);
-	// signal(SIGUSR1, handler);
-	// signal(SIGUSR2, handler);
-	printf("%s\n", str);
 	write_input(str, ft_atoi(argv[1]));
-	printf("JE NE SUIS PAS PROPRE\n");
 	return (0);
 }
