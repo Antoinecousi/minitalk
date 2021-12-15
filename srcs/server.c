@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 17:12:39 by acousini          #+#    #+#             */
-/*   Updated: 2021/12/10 18:22:21 by acousini         ###   ########.fr       */
+/*   Updated: 2021/12/15 12:48:07 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	handle_sigusr(int byte, int pid)
 		{
 			ft_putstr_fd("\n", 1);
 			kill(pid, SIGUSR2);
+			size = 0;
+			c = 0;
 			return ;
 		}
 		else
@@ -39,7 +41,7 @@ void	handle_sigusr(int byte, int pid)
 		size = 0;
 		c = 0;
 	}
-	usleep(200);
+	usleep(500);
 	if (kill(pid, SIGUSR1) == -1)
 	{
 		printf("Problem with kill transmission. Abort. ERR_01\n");
@@ -49,21 +51,24 @@ void	handle_sigusr(int byte, int pid)
 
 static void	handler(int signal, siginfo_t *info, void *context)
 {
+	static int	pid;
+	
+	if (info->si_pid != 0)
+		pid = info->si_pid;
 	(void)context;
-	// printf("%d\n", i);
-	// printf("pid == %d\n", info->si_pid);
-	if (info->si_pid == 0)
-	{
-		printf("MON PID EST EGAL A 0???\n");
-		// return ;
-	}
+	// if (info->si_pid == 0)
+	// {
+	// 	printf("info_pid == %d\n", info->si_pid);
+	// 	printf("pid == %d\n", pid);
+	// 	printf("MON PID EST EGAL A 0???\n");
+	// }
 	if (signal == SIGUSR1)
 	{
-		handle_sigusr(0, info->si_pid);
+		handle_sigusr(0, pid);
 	}
 	else if (signal == SIGUSR2)
 	{
-		handle_sigusr(1, info->si_pid);
+		handle_sigusr(1, pid);
 	}
 }
 
@@ -96,7 +101,7 @@ int	main(int argc, char **argv)
 
 	// sig_info_t	
 	while (1)
-	{
+	{	
 		// printf("toto\n");
 		pause();
 	}

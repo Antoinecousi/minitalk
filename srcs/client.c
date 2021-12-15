@@ -6,7 +6,7 @@
 /*   By: acousini <acousini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 19:13:49 by acousini          #+#    #+#             */
-/*   Updated: 2021/12/10 18:22:49 by acousini         ###   ########.fr       */
+/*   Updated: 2021/12/15 12:34:41 by acousini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	write_input(char *str, int pid)
 				if (kill(pid, SIGUSR1) == -1)
 					error_handling(pid);
 			j++;
+			printf("waiting for server, j = %d, str[i] = %c\n", j, str[i]);
 			pause();
 		}
 		i++;
@@ -54,28 +55,29 @@ void	handler(int signal)
 	if (signal == SIGUSR2)
 	{
 		printf("Signal finished!\n");
-		exit(0);
+		exit(1); //CARE HERE, Pause is still on;
 	}
 }
 
 int	main(int argc, char **argv)
 {
 	char				*str;
-	struct sigaction	sig;
+	// struct sigaction	sig;
 
-	sig.sa_flags = SA_RESTART;
-	sig.sa_handler = handler;
+	// sig.sa_flags = SA_RESTART;
+	// sig.sa_handler = handler;
 	if (argc != 3)
 	{
 		ft_putstr_fd("Usage is : \t./client \"Server PID\" \"String\"", 1);
 		return (0);
 	}
 	str = argv[2];
-	usleep(1500);
-	sigaction(SIGUSR1, &sig, NULL);
-	sigaction(SIGUSR2, &sig, NULL);
-	// signal(SIGUSR1, handler);
-	// signal(SIGUSR2, handler);
+	usleep(500);
+	// sigaction(SIGUSR1, &sig, NULL);
+	// sigaction(SIGUSR2, &sig, NULL);
+	signal(SIGUSR1, handler);
+	signal(SIGUSR2, handler);
+	printf("%s\n", str);
 	write_input(str, ft_atoi(argv[1]));
 	printf("JE NE SUIS PAS PROPRE\n");
 	return (0);
