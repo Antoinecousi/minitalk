@@ -15,7 +15,7 @@
 int	error_handler(int pid)
 {
 	(void)pid;
-	write(1, "Problem with kill transmission\n", 31);
+	write(1, "\nProblem with kill transmission\n", 32);
 	return (1);
 }
 
@@ -26,13 +26,6 @@ void	handle_sigusr(int byte, int pid)
 
 	c += byte << size;
 	size++;
-	if (c < 0 || c > 255)
-	{
-		c = 0;
-		size = 0;
-		write(1, "\nCommunication error\n", 21);
-		kill(pid, SIGUSR2);
-	}
 	if (size == 7)
 	{
 		if (c == '\0')
@@ -43,7 +36,7 @@ void	handle_sigusr(int byte, int pid)
 			return ;
 		}
 		else
-			ft_putchar_fd(c, 1);
+			write(1, &c, 1);
 		size = 0;
 		c = 0;
 	}
@@ -75,13 +68,12 @@ int	main(int argc, char **argv)
 		ft_putstr_fd("For correct behaviour, don't use any arguments\n", 1);
 		return (0);
 	}
-	sigemptyset(&sig.sa_mask);
 	sig.sa_flags = SA_SIGINFO | SA_RESTART;
-	sigemptyset(&sig.sa_mask);
 	sig.sa_sigaction = handler;
-	write(1, "pid = ", 7);
+	sigemptyset(&sig.sa_mask);
+	write(1, "pid = ", 6);
 	ft_putnbr_fd(getpid(), 1);
-	write(1, "\n", 2);
+	write(1, "\n", 1);
 	sigaction(SIGUSR1, &sig, NULL);
 	sigaction(SIGUSR2, &sig, NULL);
 	while (1)
